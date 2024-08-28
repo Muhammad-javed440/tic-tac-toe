@@ -39,7 +39,7 @@ let value = xTurn === true ? 'X' : 'O';
     }
 
     const checkDraw =()=>{
-      let check = Object.keys(boardData).every((v)=>boardData)
+      let check = Object.keys(boardData).every((v)=>boardData[v as unknown as keyof typeof boardData])
       setIsDraw(check)
       if(check)setModalTitle("Match Draw !!!")
     }
