@@ -4,11 +4,11 @@ import {useEffect, useState} from 'react';
 
 
 
-const winning_combos =[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
+
 export default function Home() {
   const [xTurn, setXTurn] = useState(true)
   const [modal_title,setModalTitle] = useState('')
-  const [wonCombo, setWonCombo] = useState([])
+  const [wonCombo, setWonCombo] = useState<number[]>([])
   const [won, setWon] = useState(false)
   const [boardData, setBoardData] = useState({
     0:"",
@@ -29,7 +29,7 @@ export default function Home() {
     },[boardData])
 
 
-    const updateBoardData = (idx:any) =>  {
+    const updateBoardData = (idx: keyof typeof boardData) =>  {
       if (!boardData[idx] && !won) {
         // will check whether specify idx is empty or not
 let value = xTurn === true ? 'X' : 'O';
@@ -39,14 +39,16 @@ let value = xTurn === true ? 'X' : 'O';
     }
 
     const checkDraw =()=>{
-      let check = Object.keys(boardData).every((v)=>boardData[v])
+      let check = Object.keys(boardData).every((v)=>boardData)
       setIsDraw(check)
       if(check)setModalTitle("Match Draw !!!")
     }
 
       const checkWinner =() => {
+
+        const winning_combos =[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
       winning_combos.map((bd)=>{
-        const [a,b,c]= bd;
+        const [a,b,c]= bd as [keyof typeof boardData, keyof typeof boardData, keyof typeof boardData];;
         if(boardData[a] && boardData[a]===boardData[b]&& boardData[a]=== boardData[c])
           {
           setWon(true)
